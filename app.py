@@ -385,7 +385,7 @@ def train_model(df):
     # ── Preprocessing ────────────────────────────────────────────────────
     drop_cols = ["serial", "conditions", "stations", "labels", "snow", "snowdepth"]
     clean = df.drop(columns=[c for c in drop_cols if c in df.columns])
-    clean = clean.fillna(method="ffill").fillna(clean.median(numeric_only=True))
+    clean = clean.ffill().fillna(clean.median(numeric_only=True))
 
     # ── Feature Engineering ──────────────────────────────────────────────
     clean["lag_1_cases"] = clean["cases"].shift(1)
@@ -779,7 +779,7 @@ Powered by XGBoost & Climate Data
         )
 
         st.dataframe(
-            results_df.style.applymap(
+            results_df.style.map(
                 lambda x: (
                     "color: #10b981"
                     if x == "Low"
